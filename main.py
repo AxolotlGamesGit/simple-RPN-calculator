@@ -1,9 +1,11 @@
-Rect(75,20,250,360,fill=None,border="black",borderWidth=4)
-Rect(85,30,230,30,fill="lightgrey")
-Rect(85,65,230,30,fill="lightgrey")
-Rect(85,100,230,30,fill="lightgrey")
-Rect(85,135,230,30,fill="lightgrey")
+import math
 
+# Graphics
+Rect(75,20,250,360,fill=None,border="black",borderWidth=4)
+for i in range(4):
+    Rect(85,30+35*i,230,30,fill="lightgrey")
+
+# Buttons
 buttons = [[0 for _ in range(5)] for _ in range(5)]
 labels = [['C',' ',' ',' ',' '],
           ['1','2','3','+',' '],
@@ -43,3 +45,23 @@ back = buttons[0][1]
 labels[0][1] = Line(150,193,170,193,arrowStart=True)
 
 clear = buttons[0][0]
+plus = buttons[0][0]
+minus = buttons[0][0]
+times = buttons[0][0]
+divide = buttons[0][0]
+decimal = buttons[0][0]
+
+digits = [0,1,2,3,4,5,6,7,8,9]
+for i in range(10):
+    digits[i] = buttons[1+math.floor(i/3)][i%3]
+
+# Stack
+stack = []
+for i in range(4):
+    Label("0",303,150-i*35,size=18)
+
+def getNum(index):
+    if (len(stack) > index):
+        return stack[index]
+    else:
+        return 0

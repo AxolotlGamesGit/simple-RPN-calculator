@@ -74,6 +74,7 @@ def clear():
     decimalLength = 0
     
 def clearAll():
+    global stack
     clear()
     stack = []
 
@@ -121,33 +122,64 @@ def decimal():
     isDecimal = True
             
 def backspace():
-    print("TODO: backspace")
+    global current, isDecimal, decimalLength
+    if (isDecimal):
+        if (decimalLength == 0):
+            isDecimal = False
+        else:
+            decimalLength -= 1
+            current = pythonRound(current, decimalLength)
+    else:
+        if (current != None):
+            current = (current - current%10)/10
+        if (current == 0):
+            current = None
+            
+# Operations
+def plus():
+    enter()
+    stack.insert(0,stack.pop() + stack.pop())
+
+def minus():
+    enter()
+    stack.insert(0,stack.pop() - stack.pop())
+    
+def times():
+    enter()
+    stack.insert(0,stack.pop() * stack.pop())
+    
+def divide():
+    enter()
+    stack.insert(0,stack.pop() / stack.pop())
 
 # Called after input handling
 def updateStackLabels():
     for i in range(3):
         if (len(stack) > i):
-            stackLabels[i].value = stack[i]
+            stackLabels[i].value = f"{stack[i]:.8g}"
             stackLabels[i].right = 305
         else:
             stackLabels[i].value = ""
     
 def updateCurrentLabel():
-    global decimalLength
+    global isDecimal, decimalLength
     if (current != None):
-        currentlabel.value = f"{current:.(decimalLength)f}"
+        if (isDecimal  and  decimalLength == 0):
+            currentlabel.value = f"{current:.0f}" + "."
+        else:
+            currentlabel.value = f"{current:.{decimalLength}f}"
         currentlabel.right = 305
     else:
         currentlabel.value = ""
     
 def onKeyPress(key):
+    global current
     # print(key)
     match key:
         case "c":
-            if (current == None):
-                clearAll()
-            else:
-                clear()
+            clear()
+        case "C":
+            clearAll()
         case "backspace":
             backspace()
         case "enter":
@@ -158,6 +190,14 @@ def onKeyPress(key):
             pop()
         case ".":
             decimal()
+        case "+":
+            plus()
+        case "-":
+            minus()
+        case "*":
+            times()
+        case "/":
+            divide()
             
     if (key.isdigit()):
         typeDigit(int(key))

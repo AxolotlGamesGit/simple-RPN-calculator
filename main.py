@@ -16,34 +16,34 @@ labels = [['C',' ',' ',' ',' '],
 for row in range(5):
     for col in range(5):
         buttons[row][col] = Rect(100+col*40,180+row*40,35,35,fill="lightgrey")
-        labels[row][col] = Label(labels[row][col],117.5+col*40,192.5+row*40,size=18)
+        labels[row][col] = Label(labels[row][col],117.5+col*40,197.5+row*40,size=18)
 
 clearAll = buttons[0][2]
 clearAll.width = 75
 # clearAll.fill = "yellow"
 buttons[0][3].fill = None
-labels[0][1] = Label("AC",217,193,size=18)
+labels[0][1] = Label("AC",217,198,size=18)
 
 enter = buttons[2][4]
 enter.height = 115
 buttons[3][4].fill = None
 buttons[4][4].fill = None
-labels[2][4] = Group(Label("E",278,282,size=18),
-                     Label("n",278,297,size=18),
-                     Label("t",278,312,size=18),
-                     Label("e",278,327,size=18),
-                     Label("r",278,342,size=18))
+labels[2][4] = Group(Label("E",278,287,size=18),
+                     Label("n",278,302,size=18),
+                     Label("t",278,317,size=18),
+                     Label("e",278,332,size=18),
+                     Label("r",278,347,size=18))
 
 swap = buttons[0][4]
 swap.height = 75
 buttons[1][4].fill = None
-labels[2][4] = Group(Label("S",278,191,size=18),
-                     Label("w",278,206,size=18),
-                     Label("a",278,220,size=18),
-                     Label("p",278,234,size=18))
+labels[2][4] = Group(Label("S",278,196,size=18),
+                     Label("w",278,211,size=18),
+                     Label("a",278,225,size=18),
+                     Label("p",278,239,size=18))
 
 back = buttons[0][1]
-labels[0][1] = Line(150,193,170,193,arrowStart=True)
+labels[0][1] = Line(150,198,170,198,arrowStart=True)
 
 clear = buttons[0][0]
 plus = buttons[0][0]
@@ -57,44 +57,110 @@ for i in range(10):
     digits[i] = buttons[1+math.floor(i/3)][i%3]
 
 # Stack
-stack = [0]
+stack = []
+current = None
 isDecimal = False
+decimalLength = 0
+currentlabel = Label("",303,155,size=18)
 stackLabels = []
-stackLabels.append(Label("0",303,155,size=18))
 for i in range(3):
-    stackLabels.append(Label("0",303,115-i*35,size=18))
+    stackLabels.append(Label("",303,115-i*35,size=18))
+
+# Misc stack stuff
+def clear():
+    global current, isDecimal, decimalLength
+    current = None
+    isDecimal = False
+    decimalLength = 0
+    
+def clearAll():
+    clear()
+    stack = []
+
+def enter():
+    if (current != None):
+        stack.insert(0,current)
+        clear()
 
 def getNum(index):
     if (len(stack) > index):
         return stack[index]
     else:
-        pass # TODO: error message
+        print("TODO: error message")
         
 def pop():
+    enter()
     if (len(stack) > 0):
-        return stack.pop()
+        return stack.pop(0)
     else:
-        pass # TODO: error message
-        
-def enter():
-    stack.insert(0, 0)
+        print("TODO: error message")
     
 def swap():
+    enter()
     if (len(stack) > 1):
         temp = stack[0]
         stack[0] = stack[1]
         stack[1] = temp
     else:
-        pass # TODO: error message
+        print("TODO: error message")
 
-def setNum(num):
-    if (len(stack) > 0):
-        stack[0] = num
+# Current number stuff
+def typeDigit(digit):
+    global current, decimalLength
+    if (isDecimal):
+        decimalLength += 1
+        current += digit / (math.pow(10,decimalLength))
     else:
-        stack.push(num)
-        
-def clear():
-    if (len(stack) > 0):
-        setNum(0)
+        if (current == None):
+            current = digit
+        else:
+            current = current*10 + digit
+            
+def decimal():
+    global isDecimal
+    isDecimal = True
+            
+def backspace():
+    print("TODO: backspace")
+
+# Called after input handling
+def updateStackLabels():
+    for i in range(3):
+        if (len(stack) > i):
+            stackLabels[i].value = stack[i]
+            stackLabels[i].right = 305
+        else:
+            stackLabels[i].value = ""
+    
+def updateCurrentLabel():
+    global decimalLength
+    if (current != None):
+        currentlabel.value = f"{current:.(decimalLength)f}"
+        currentlabel.right = 305
     else:
-        pass # TODO: error message
+        currentlabel.value = ""
+    
+def onKeyPress(key):
+    # print(key)
+    match key:
+        case "c":
+            if (current == None):
+                clearAll()
+            else:
+                clear()
+        case "backspace":
+            backspace()
+        case "enter":
+            enter()
+        case "s":
+            swap()
+        case "p":
+            pop()
+        case ".":
+            decimal()
+            
+    if (key.isdigit()):
+        typeDigit(int(key))
+            
+    updateStackLabels()
+    updateCurrentLabel()

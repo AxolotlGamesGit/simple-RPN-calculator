@@ -12,42 +12,28 @@ labels = [['C',' ',' ',' ',' '],
           ['1','2','3','+',' '],
           ['4','5','6','-',' '],
           ['7','8','9','*',' '],
-          ['0','.',' ','/',' ']]
-keys =   [['1c','backspace','C',' ','s'],
-          ['1','2',        '3','+',' '],
-          ['4','5',        '6','-','enter'],
-          ['7','8',        '9','*',' '],
-          ['0','.',        ' ','/',' ']]
+          ['.','0',' ','/','e']]
+keys =   [['c','C','backspace','s','p'],
+          ['1','2','3',        '+',' '],
+          ['4','5','6',        '-','enter'],
+          ['7','8','9',        '*',' '],
+          ['.','0','enter',    '/',' ']]
 for row in range(5):
     for col in range(5):
         buttons[row][col] = Rect(100+col*40,180+row*40,35,35,fill="lightgrey")
         labels[row][col] = Label(labels[row][col],117.5+col*40,197.5+row*40,size=18)
 
-# Clear all
-buttons[0][2].width = 75
-buttons[0][3].fill = None
-labels[0][1] = Label("AC",217,198,size=18)
-
-# Enter
-buttons[2][4].height = 115
-buttons[3][4].fill = None
-buttons[4][4].fill = None
-labels[2][4] = Group(Label("E",278,287,size=18),
-                     Label("n",278,302,size=18),
-                     Label("t",278,317,size=18),
-                     Label("e",278,332,size=18),
-                     Label("r",278,347,size=18))
-
-# Swap
-buttons[0][4].height = 75
-buttons[1][4].fill = None
-labels[2][4] = Group(Label("S",278,196,size=18),
-                     Label("w",278,211,size=18),
-                     Label("a",278,225,size=18),
-                     Label("p",278,239,size=18))
-
-# Backspace
-labels[0][1] = Line(150,198,170,198,arrowStart=True)
+# Custom labels
+labels[0][1] = Label("AC",158,198,size=14)
+labels[0][2] = Line(190,198,210,198,arrowStart=True)
+labels[0][3] = Label("swap",238,198,size=13)
+labels[0][4] = Label("pop",278,198,size=13)
+labels[1][4] = Label("sqrt",278,238,size=13)
+labels[2][4] = Label("log",278,278,size=13)
+labels[3][4] = Group(Line(270,310,286,310),
+                     Line(274,310,274,326),
+                     Line(282,310,282,326))
+labels[4][2] = Label("enter",198,358,size=12)
 
 # Stack
 stack = []

@@ -13,7 +13,7 @@ labels = [['C',' ',' ',' ',' '],
           ['4','5','6','-',' '],
           ['7','8','9','*',' '],
           ['0','.',' ','/',' ']]
-keys =   [['c','backspace','C',' ','s'],
+keys =   [['1c','backspace','C',' ','s'],
           ['1','2',        '3','+',' '],
           ['4','5',        '6','-','enter'],
           ['7','8',        '9','*',' '],
@@ -23,14 +23,13 @@ for row in range(5):
         buttons[row][col] = Rect(100+col*40,180+row*40,35,35,fill="lightgrey")
         labels[row][col] = Label(labels[row][col],117.5+col*40,197.5+row*40,size=18)
 
-clearAll = buttons[0][2]
-clearAll.width = 75
-# clearAll.fill = "yellow"
+# Clear all
+buttons[0][2].width = 75
 buttons[0][3].fill = None
 labels[0][1] = Label("AC",217,198,size=18)
 
-enter = buttons[2][4]
-enter.height = 115
+# Enter
+buttons[2][4].height = 115
 buttons[3][4].fill = None
 buttons[4][4].fill = None
 labels[2][4] = Group(Label("E",278,287,size=18),
@@ -39,27 +38,16 @@ labels[2][4] = Group(Label("E",278,287,size=18),
                      Label("e",278,332,size=18),
                      Label("r",278,347,size=18))
 
-swap = buttons[0][4]
-swap.height = 75
+# Swap
+buttons[0][4].height = 75
 buttons[1][4].fill = None
 labels[2][4] = Group(Label("S",278,196,size=18),
                      Label("w",278,211,size=18),
                      Label("a",278,225,size=18),
                      Label("p",278,239,size=18))
 
-back = buttons[0][1]
+# Backspace
 labels[0][1] = Line(150,198,170,198,arrowStart=True)
-
-clear = buttons[0][0]
-plus = buttons[0][0]
-minus = buttons[0][0]
-times = buttons[0][0]
-divide = buttons[0][0]
-decimal = buttons[0][0]
-
-digits = [0,1,2,3,4,5,6,7,8,9]
-for i in range(10):
-    digits[i] = buttons[1+math.floor(i/3)][i%3]
 
 # Stack
 stack = []

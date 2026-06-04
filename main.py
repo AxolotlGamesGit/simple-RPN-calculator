@@ -13,6 +13,11 @@ labels = [['C',' ',' ',' ',' '],
           ['4','5','6','-',' '],
           ['7','8','9','*',' '],
           ['0','.',' ','/',' ']]
+keys =   [['c','backspace','C',' ','s'],
+          ['1','2',        '3','+',' '],
+          ['4','5',        '6','-','enter'],
+          ['7','8',        '9','*',' '],
+          ['0','.',        ' ','/',' ']]
 for row in range(5):
     for col in range(5):
         buttons[row][col] = Rect(100+col*40,180+row*40,35,35,fill="lightgrey")
@@ -217,3 +222,9 @@ def onKeyPress(key):
             
     updateStackLabels()
     updateCurrentLabel()
+        
+def onMousePress(mouseX, mouseY):
+    for row in range(5):
+        for col in range(5):
+            if (buttons[row][col].hits(mouseX,mouseY)):
+                onKeyPress(keys[row][col])

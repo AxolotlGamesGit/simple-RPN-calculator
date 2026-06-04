@@ -138,19 +138,32 @@ def backspace():
 # Operations
 def plus():
     enter()
-    stack.insert(0,stack.pop() + stack.pop())
+    if (len(stack)<2):
+        print("TODO: error message")
+        return
+    stack.insert(0,pop() + pop())
 
 def minus():
     enter()
-    stack.insert(0,stack.pop() - stack.pop())
+    if (len(stack)<2):
+        print("TODO: error message")
+        return
+    stack.insert(0,-pop() + pop())
     
 def times():
     enter()
-    stack.insert(0,stack.pop() * stack.pop())
+    if (len(stack)<2):
+        print("TODO: error message")
+        return
+    stack.insert(0,pop() * pop())
     
 def divide():
     enter()
-    stack.insert(0,stack.pop() / stack.pop())
+    if (len(stack)<2):
+        print("TODO: error message")
+        return
+    temp = pop()
+    stack.insert(0,pop() / temp)
 
 # Called after input handling
 def updateStackLabels():

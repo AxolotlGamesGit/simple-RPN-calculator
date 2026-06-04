@@ -13,11 +13,11 @@ labels = [['C',' ',' ',' ',' '],
           ['4','5','6','-',' '],
           ['7','8','9','*',' '],
           ['.','0',' ','/','e']]
-keys =   [['c','C','backspace','s','p'],
-          ['1','2','3',        '+',' '],
-          ['4','5','6',        '-','enter'],
-          ['7','8','9',        '*',' '],
-          ['.','0','enter',    '/',' ']]
+keys =   [['c','C','backspace','s','d'],
+          ['1','2','3',        '+','r'],
+          ['4','5','6',        '-','l'],
+          ['7','8','9',        '*','p'],
+          ['.','0','enter',    '/','e']]
 for row in range(5):
     for col in range(5):
         buttons[row][col] = Rect(100+col*40,180+row*40,35,35,fill="lightgrey")
@@ -27,7 +27,7 @@ for row in range(5):
 labels[0][1] = Label("AC",158,198,size=14)
 labels[0][2] = Line(190,198,210,198,arrowStart=True)
 labels[0][3] = Label("swap",238,198,size=13)
-labels[0][4] = Label("pop",278,198,size=13)
+labels[0][4] = Label("drop",278,198,size=13)
 labels[1][4] = Label("sqrt",278,238,size=13)
 labels[2][4] = Label("log",278,278,size=13)
 labels[3][4] = Group(Line(270,310,286,310),
@@ -143,6 +143,28 @@ def divide():
         return
     temp = pop()
     stack.insert(0,pop() / temp)
+    
+def sqrt():
+    enter()
+    if (len(stack)<1):
+        print("TODO: error message")
+        return
+    stack.insert(0,math.sqrt(pop()))
+    
+def log():
+    enter()
+    if (len(stack)<2):
+        print("TODO: error message")
+        return
+    stack.insert(0,math.log(pop(), pop()))
+    
+def pi():
+    enter()
+    stack.insert(0, math.pi)
+    
+def e():
+    enter()
+    stack.insert(0, math.e)
 
 # Called after input handling
 def updateStackLabels():
@@ -178,7 +200,7 @@ def onKeyPress(key):
             enter()
         case "s":
             swap()
-        case "p":
+        case "d":
             pop()
         case ".":
             decimal()
@@ -190,6 +212,14 @@ def onKeyPress(key):
             times()
         case "/":
             divide()
+        case "r":
+            sqrt()
+        case "l":
+            log()
+        case "p":
+            pi()
+        case "e":
+            e()
             
     if (key.isdigit()):
         typeDigit(int(key))
